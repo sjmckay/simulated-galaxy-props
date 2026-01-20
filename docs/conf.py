@@ -8,14 +8,13 @@
 
 import os
 import sys
-sys.path.insert(0, os.path.abspath('../SFRcalculator'))
+sys.path.insert(0, os.path.abspath('../simulated_galaxy_props'))
 
-
-project = 'SFRcalculator'
+project = 'simulated-galaxy-props'
 copyright = '2024, group12, codeastro'
 author = 'group12, codeastro'
 root_doc = 'index'
-release = '0.0.2'
+release = '0.1.1'
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
