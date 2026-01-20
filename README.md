@@ -1,5 +1,5 @@
-# SFRs-calculator
+# simulated-galaxy-props
 
-This is a calculator to obtain SFRs (star formation rates). We use a random forest model trained with SFRS from the simulations of TNG ilustris.
+(forked from Paulippi/SFRs-calculator).
 
-Read the docs link: https://sfrs-calculator.readthedocs.io/en/latest/
+Updated version of a galaxy property inference model originally designed to measure star-formation rates (SFRs) for galaxies based on optical to mid-infrared data. We use a random forest model trained on simulated galaxy features from the IllustrisTNG simulation suite.
