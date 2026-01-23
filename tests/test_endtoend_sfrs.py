@@ -12,10 +12,11 @@ mag_data = data[['mag_u', 'mag_g','mag_r','mag_z']]
 mag_data.columns = ['u','g','r','z']
 mag_data -= 37.68
 
-test_sfrs = model.compute(bands=['u','g','r','z'], user_data=mag_data)
-# print(np.round(np.log10(test_sfrs),1))
+model = model.InferenceModel()
+model.train(bands_to_use=['u','g','r','z'], properties=['sfr'])
 
-print(mean_absolute_error(test_sfrs, data['log_SFR']))
+test_sfrs = model.predict(user_data=mag_data)
 
-assert np.all(test_sfrs > 0) # maybe better negative or negative infinite
+print(mean_absolute_error(np.log10(test_sfrs), data['log_SFR']))
+
 assert np.all(np.isfinite(test_sfrs))  # makes sure that the sfrs are kinda reasonable

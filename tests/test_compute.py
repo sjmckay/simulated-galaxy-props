@@ -8,7 +8,9 @@ def test_compute():
     """
     test_phot = np.random.rand(10,3) * 5 - 21 # random floats from -21 to -16 (abs mags)
     tphot = pd.DataFrame(test_phot,columns=['u','b','z'])
-    usersfrs = model.compute(bands = ['u','b','z'], user_data = tphot)
+    model = model.InferenceModel()
+    model.train(bands_to_use=['u','b','z'], properties=['sfr'])
 
-    assert len(usersfrs) == len(test_phot)
-    assert np.all(np.isfinite(usersfrs))
+    test_sfrs = model.predict(user_data=tphot)
+    assert len(test_sfrs) == len(test_phot)
+    assert np.all(np.isfinite(test_sfrs))
