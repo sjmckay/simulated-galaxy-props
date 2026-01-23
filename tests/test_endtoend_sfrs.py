@@ -2,6 +2,7 @@ import numpy as np
 import pandas as pd
 from simulated_galaxy_props import model as model
 import matplotlib.pyplot as plt
+from sklearn.metrics import mean_absolute_error
 
 data = pd.read_csv("../data/A2670Finalcat.csv")
 
@@ -14,9 +15,7 @@ mag_data -= 37.68
 test_sfrs = model.compute(bands=['u','g','r','z'], user_data=mag_data)
 # print(np.round(np.log10(test_sfrs),1))
 
+print(mean_absolute_error(test_sfrs, data['log_SFR']))
 
-print(test_sfrs-data['log_SFR'])
-
-print("pau")
-#assert np.all(test_sfrs > 0) # maybe better negative or negative infinite
+assert np.all(test_sfrs > 0) # maybe better negative or negative infinite
 assert np.all(np.isfinite(test_sfrs))  # makes sure that the sfrs are kinda reasonable
