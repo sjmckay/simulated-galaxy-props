@@ -5,8 +5,9 @@ import pandas as pd
 
 from simulated_galaxy_props import model
 import matplotlib.pyplot as plt
+from importlib.resources import files
 
-data = pd.read_csv("../data/A2670Finalcat.csv")
+data = pd.read_csv(files('simulated_galaxy_props').joinpath('data/mock_observed_galaxy_data.csv'))
 
 
 def test_inputfile():

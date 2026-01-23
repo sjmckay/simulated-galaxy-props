@@ -5,7 +5,7 @@ from sklearn.model_selection import train_test_split
 from .dataset import load_tng_data, split_dataset
 from sklearn.ensemble import RandomForestRegressor
 import warnings
-
+from importlib.resources import files
 
 class InferenceModel():
     def __init__(self):
@@ -13,7 +13,10 @@ class InferenceModel():
         self.trained = False
     
     def train(self, bands_to_use=['u', 'b', 'v', 'k', 'g', 'r', 'i', 'z'], properties=['sfr']):
-        X, Y = load_tng_data('../data/SubhaloMag.npy','../data/subhaloSFR.npy', bands_to_use=bands_to_use,
+        '''model training'''
+        mag_path = files('simulated_galaxy_props').joinpath('data/SubhaloMag.npy')
+        sfr_path = files('simulated_galaxy_props').joinpath('data/subhaloSFR.npy')
+        X, Y = load_tng_data(mag_path, sfr_path, bands_to_use=bands_to_use,
                                    properties=properties) #TODO: update dataset loader to accept properties
         x_train, x_test, y_train, y_test = split_dataset(X, Y)
         self.model.fit(x_train, np.ravel(y_train))

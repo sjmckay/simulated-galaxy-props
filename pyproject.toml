@@ -11,3 +11,9 @@ dependencies = [
  "pandas",
  "matplotlib",
 ]
+
+[tool.setuptools]
+packages = ["simulated_galaxy_props"]
+
+[tool.setuptools.package-data]
+simulated_galaxy_props = ["data/*"]

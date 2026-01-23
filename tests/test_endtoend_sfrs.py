@@ -3,8 +3,8 @@ import pandas as pd
 from simulated_galaxy_props import model as model
 import matplotlib.pyplot as plt
 from sklearn.metrics import mean_absolute_error
-
-data = pd.read_csv("../data/A2670Finalcat.csv")
+from importlib.resources import files
+data = pd.read_csv(files('simulated_galaxy_props').joinpath('data/mock_observed_galaxy_data.csv'))
 
 #data = pd.read_csv()
 # print(data.head(4))
