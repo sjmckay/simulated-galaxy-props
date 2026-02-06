@@ -1,3 +1,4 @@
+from tabnanny import verbose
 from xml.parsers.expat import model
 import numpy as np
 import pandas as pd
@@ -7,22 +8,30 @@ from sklearn.ensemble import RandomForestRegressor
 import warnings
 from importlib.resources import files
 
-class InferenceModel():
-    def __init__(self):
-        self.model = RandomForestRegressor(random_state=42, n_estimators=200)
+class InferenceModel(RandomForestRegressor):
+    def __init__(self,random_state=42, n_estimators=200):
+        super().__init__(random_state=random_state, n_estimators=n_estimators)
         self.trained = False
+
+    def fit(self, X, Y):
+        super().fit(X, Y)
+        self.trained = True
     
-    def train(self, bands_to_use=['u', 'b', 'v', 'k', 'g', 'r', 'i', 'z'], properties=['sfr']):
+    def train(self, bands_to_use=['u', 'b', 'v', 'k', 'g', 'r', 'i', 'z'], 
+              properties=['sfr'], verbose=False):
         '''model training'''
         mag_path = files('simulated_galaxy_props').joinpath('data/SubhaloMag.npy')
         sfr_path = files('simulated_galaxy_props').joinpath('data/subhaloSFR.npy')
         X, Y = load_tng_data(mag_path, sfr_path, bands_to_use=bands_to_use,
                                    properties=properties) #TODO: update dataset loader to accept properties
         x_train, x_test, y_train, y_test = split_dataset(X, Y)
-        self.model.fit(x_train, np.ravel(y_train))
-        self.trained = True
-        print(self.model.score(x_train, y_train))
-        print(self.model.score(x_test, y_test))
+        self.fit(x_train, np.ravel(y_train))
+        train_score = super().score(x_train, y_train)
+        test_score = super().score(x_test, y_test)
+        if verbose:
+            print(train_score)
+            print(test_score)
+        return train_score, test_score
     
     def predict(self, user_data):
         '''property computation
@@ -40,5 +49,5 @@ class InferenceModel():
         '''
         if not self.trained:
             warnings.warn("Model must be trained before prediction.")
-        pred = self.model.predict(user_data)
+        pred = super().predict(user_data)
         return pred
